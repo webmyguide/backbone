@@ -1,0 +1,17 @@
+@charset "utf-8";
+
+.sideBox {
+    &_top {
+        position: absolute;
+        width: 100%;
+        top: 50%;
+        @include transform(translateY(-50%));
+    }
+
+    @include mq(){
+        &_top {
+            position: static;
+            @include transform(translateY(0));
+        }
+    };
+}

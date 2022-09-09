@@ -1,0 +1,148 @@
+@charset "utf-8";
+
+
+
+
+
+.content {
+    // position: absolute;
+    width: 100%;
+    height: 100%;
+    z-index: 5;
+    overflow: hidden;
+
+
+    &__inner {
+        max-width: 1200px;
+        width: 100%;
+        height: 100%;
+        margin: 0 auto;
+        position: relative;
+        border-left: 1px dotted rgba(255,255,255,0.4);
+        border-right: 1px dotted rgba(255,255,255,0.4);
+        padding-top: 1px;
+
+        &_index {
+            &:before,
+            &:after {
+                content: "";
+                position: absolute;
+                top: -1px;
+                bottom: -1px;
+                z-index: -1;
+            }
+            &:before {
+                left: 0;
+                width: 32%;
+                border-right: 1px dotted rgba(255,255,255,0.4);
+            }
+            &:after {
+                right: 0;
+                width: 20%;
+                border-left: 1px dotted rgba(255,255,255,0.4);
+            }
+
+            @include mq('tb'){
+                &:before {
+                    width: 45%;
+                }
+                &:after {
+                    width: 30%;
+                }
+            };
+
+        }
+    }
+
+    @include mq(){
+        &__inner {
+            padding-top: 1px;
+        }
+    };
+
+
+
+    &__titArea {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        right: 0;
+        width: 20%;
+
+        @include mq(){
+            position: static;
+            width:  calc(100% + 2px);
+            margin-left: -1px;
+            margin-top: 12px;
+        };
+    }
+
+
+
+    @include mq('tb'){
+        &__titArea {
+            width: 30%;
+        }
+    };
+
+
+    &__titInner {
+        margin-top: 40px;
+    }
+
+    @include mq(){
+        &__titInner {
+            margin-top: 0;
+        }
+    };
+
+
+    &__sideArea {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        width: 32%;
+
+        @include mq(){
+            top: initial;
+            width:  calc(100% + 2px);
+            margin-left: -1px;
+        };
+    }
+
+
+
+    @include mq('tb'){
+        &__sideArea {
+            width: 45%;
+        }
+    };
+
+
+    &__sideInner {
+        height: 100%;
+        position: relative;
+    }
+
+    &__mainArea {
+        width:  calc(100% + 2px);
+        margin-left: -1px;
+        padding: 40px 0;
+    }
+    @include mq(){
+        &__mainArea {
+            padding: 20px 0 34px 0;
+        }
+    };
+
+    &__mainInner {
+        background-color: #f2f2f2;
+        padding: 40px;
+    }
+    @include mq(){
+        &__mainInner {
+            padding: 12px;
+        }
+    };
+}

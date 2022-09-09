@@ -1,0 +1,37 @@
+@charset "utf-8";
+
+
+.par {
+    &_common {
+        &_01 {
+            text-align: left;
+            padding-bottom: 20px;
+            text-indent:1em;
+            line-height: 1.6;
+        }
+        @include mq(){
+            &_01 {
+                padding-bottom: 6px;
+            }
+        };
+    }
+
+    &_performance {
+        &_figure {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 6px;
+
+            @include mq(){
+                font-size: 20px;
+                display: inline-block;
+
+                + div {
+                    display: inline-block;
+                    margin-left: 6px;
+                }
+            }
+        }
+    }
+
+}

@@ -1,0 +1,497 @@
+@charset "utf-8";
+@import "base/setting";
+@import "base/mixin";
+@import "plugin/bourbon/bourbon";
+
+$fps: 60;
+
+$baseFps: 60;
+$magnificationFps:$fps/$baseFps;
+
+$oneSecond: 1/$fps;
+$thresholdX:960;
+$thresholdY:540;
+
+$hanaSize1: 116px;
+$hanaSize2: $hanaSize1/2;
+$hanaSize3: $hanaSize1*1.5;
+$hanaSize4: $hanaSize1*2;
+
+
+$durationBustUp1: 90*$magnificationFps;
+$durationBustUp2: 90*$magnificationFps;
+$durationSentence1: 30*$magnificationFps;
+$durationSentence2: 30*$magnificationFps;
+
+$durationLogo:40*$magnificationFps;
+$durationBg:40*$magnificationFps;
+$durationChara:70*$magnificationFps;
+$durationContentTop:20*$magnificationFps;
+
+$durationMask1:20*$magnificationFps;
+$durationMask2:40*$magnificationFps;
+$durationMask3:20*$magnificationFps;
+$durationMask4:40*$magnificationFps;
+
+$durationHanabiraRotate:1200*$magnificationFps;
+
+
+//開始コマ
+$delayHana: 10*$magnificationFps;
+$delayBustUp1: 10*$magnificationFps;
+$delayBustUp2: 120*$magnificationFps;
+$delaySentence1: 220*$magnificationFps;
+$delaySentence2: 260*$magnificationFps;
+$delayLogo: 360*$magnificationFps;
+$delayBg: 360*$magnificationFps;
+$delayChara: 370*$magnificationFps;
+$delayContentTop: 480*$magnificationFps;
+
+$delayMask1: 10*$magnificationFps;
+$delayMask2: 60*$magnificationFps;
+$delayMask3: 120*$magnificationFps;
+$delayMask4: 170*$magnificationFps;
+
+
+
+
+/* mixin
+--------------------------------------------------------------------------------------------------------------------------------------------------------------*/
+/* --- マスク関連 --- */
+@mixin create-mask-appear($name,$second,$dis:false, $delay:0,$color:#ffffff){
+    $maskType:mask1;
+    @if ($dis){
+        $maskType:mask2;
+    }
+
+    .ani_#{$name} {
+        background-color: $color;
+        @include animation-name($maskType);
+        @include animation-duration(#{$oneSecond*$second}s);
+        @include animation-delay(#{($oneSecond*$delay)}s);
+        @include animation-timing-function(linear);
+        @include animation-iteration-count(initial);
+
+
+        @content
+    }
+}
+
+/* --- アニメーションベース --- */
+@mixin create-ani-base($name,$second,$delay:0){
+    .ani_#{$name} {
+        @content;
+        @include animation-name($name);
+        @include animation-duration(#{$oneSecond*$second}s);
+        @include animation-delay(#{($oneSecond*$delay)}s);
+        @include animation-timing-function(linear);
+        @include animation-iteration-count(initial);
+
+    }
+}
+
+/* --- 花びら --- */
+@mixin create-hanabira($name,$size,$second,$toX,$toY,$endX,$endY, $delay:0, $rotate:0deg){
+    .ani_#{$name} {
+        width: $size;
+        height: $size;
+
+        @include transform( translate($endX, $endY) rotate(-90deg) );
+        @include animation-name($name);
+        @include animation-duration(#{$oneSecond*$second}s);
+        @include animation-delay(#{$oneSecond*$delay}s);
+        @include animation-timing-function(linear);
+        @include animation-iteration-count(infinite);
+        @include animation-direction(normal);
+        opacity: 1;
+        img {
+            width: $size;
+            height: $size;
+        }
+
+        .ani_hanabira_rotate01 {
+            @include animation-delay(#{($oneSecond*$delay)}s);
+        }
+
+
+    }
+
+    @include keyframes($name) {
+        0% {
+            opacity: 1;
+            @include transform(translate($toX, $toY));
+        }
+        99.9%,to {
+            opacity: 1;
+            @include transform(translate($endX, $endY));
+        }
+    }
+}
+
+
+
+
+/* バストアップ
+--------------------------------------------------------------------------------------------------------------------------------------------------------------*/
+.prt_threshold01 {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);;
+}
+
+.box_bust_up01 {
+
+}
+
+.box_bust_up01 > div {
+    position: relative;
+    overflow: hidden;
+    z-index: 1;
+}
+
+.box_bust_up01 > div .chara02 {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: -1;
+}
+
+.box_bust_up01 > div .chara01 {
+    position: absolute;
+    top: 0;
+    right: 0;
+    z-index: -1;
+}
+
+.box_bust_up01 .frame01 {
+
+    vertical-align: bottom;
+}
+
+.ani_bust_up01 {
+    @include animation-name(bustupAppear1);
+    @include animation-duration(#{$oneSecond*$durationBustUp1}s);
+    @include animation-delay(#{($oneSecond*$delayBustUp1)}s);
+    @include animation-timing-function(linear);
+    @include animation-iteration-count(initial);
+    @include animation-direction(normal);
+    opacity: 0;
+}
+
+.ani_bust_up02 {
+    @include animation-name(bustupAppear1);
+    @include animation-duration(#{$oneSecond*$durationBustUp2}s);
+    @include animation-delay(#{($oneSecond*$delayBustUp2)}s);
+    @include animation-timing-function(linear);
+    @include animation-iteration-count(initial);
+    @include animation-direction(normal);
+    opacity: 0;
+}
+
+@include keyframes(bustupAppear1) {
+    0% {
+        opacity: 1;
+
+    }
+    99.9%,to {
+        opacity: 1;
+    }
+}
+
+
+
+@include create-mask-appear(mask01, $durationMask1, false,$delayMask1){
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 8;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+};
+
+
+
+@include create-mask-appear(mask02, $durationMask2,true,$delayMask2){
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 8;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+};
+
+
+@include create-mask-appear(mask03, $durationMask3, false,$delayMask3){
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 8;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+
+};
+
+
+@include create-mask-appear(mask04, $durationMask4,true,$delayMask4){
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 8;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+};
+
+
+@include keyframes(mask1) {
+    0% {
+        opacity: 1;
+    }
+    99.9%,to {
+        opacity: 0;
+    }
+}
+
+@include keyframes(mask2) {
+    0% {
+        opacity: 0;
+
+    }
+    99.9%,to {
+        opacity: 1;
+    }
+}
+
+
+.box_bust_up01 > div .chara02 {
+    @include animation-name(bust_up01);
+    @include animation-duration(#{$oneSecond*$durationBustUp1}s);
+    //@include animation-delay(#{($oneSecond*$delay)}s);
+    @include animation-timing-function(linear);
+    @include animation-iteration-count(initial);
+    @include animation-direction(normal);
+    opacity: 0;
+}
+
+.box_bust_up01 > div .chara01 {
+    @include animation-name(bust_up02);
+    @include animation-duration(#{$oneSecond*$durationBustUp2}s);
+    @include animation-delay(#{($oneSecond*$delayBustUp2)}s);
+    @include animation-timing-function(linear);
+    @include animation-iteration-count(initial);
+    @include animation-direction(normal);
+    opacity: 0;
+}
+
+@include keyframes(bust_up01) {
+    0% {
+        opacity: 1;
+        @include transform(translate(0,0));
+    }
+    99.9%,to {
+        opacity: 1;
+        @include transform(translate(-80px, -40px));
+    }
+}
+
+@include keyframes(bust_up02) {
+    0% {
+        opacity: 1;
+        @include transform(translate(0,0));
+    }
+    99.9%,to {
+        opacity: 1;
+        @include transform(translate(80px, -40px));
+    }
+}
+
+
+/* 文章
+--------------------------------------------------------------------------------------------------------------------------------------------------------------*/
+@include create-ani-base(sentence01, $durationSentence1, $delaySentence1){
+    @include animation-fill-mode(forwards);
+    opacity: 0;
+};
+
+.ani_sentence01.txt02 {
+    @include animation-delay(#{($oneSecond*$delaySentence2)}s);
+}
+
+@include keyframes(sentence01) {
+    0% {
+        opacity: 0;
+        @include transform(translate(0,-20px));
+    }
+    99.9%,to {
+        opacity: 1;
+        @include transform(translate(0, 20px));
+    }
+}
+
+
+/* ロゴ
+--------------------------------------------------------------------------------------------------------------------------------------------------------------*/
+
+@include create-ani-base(logo01, $durationLogo, $delayLogo){
+    @include animation-fill-mode(forwards);
+    opacity: 0;
+    @include transform-origin(center center);
+};
+
+
+@include keyframes(logo01) {
+    0% {
+        opacity: 0;
+        @include transform(scale(1.2));
+    }
+    99.9%,to {
+        opacity: 1;
+        @include transform(scale(1));
+    }
+}
+
+/* 背景
+--------------------------------------------------------------------------------------------------------------------------------------------------------------*/
+@include create-ani-base(bg01, $durationBg, $delayBg){
+    @include animation-fill-mode(forwards);
+    opacity: 0;
+};
+
+
+@include keyframes(bg01) {
+    0% {
+        opacity: 0;
+    }
+    99.9%,to {
+        opacity: 1;
+    }
+}
+
+
+/* キャラ
+--------------------------------------------------------------------------------------------------------------------------------------------------------------*/
+@include create-ani-base(chara01, $durationChara, $delayChara){
+    @include animation-fill-mode(forwards);
+    opacity: 0;
+    @include transform-origin(center center);
+};
+
+
+@include keyframes(chara01) {
+    0% {
+        opacity: 0;
+        @include transform(scale(1.05));
+    }
+    99.9%,to {
+        opacity: 1;
+        @include transform(scale(1));
+    }
+}
+
+
+
+
+/* コンテンツ
+--------------------------------------------------------------------------------------------------------------------------------------------------------------*/
+@include create-ani-base(content01, $durationContentTop, $delayContentTop){
+    @include animation-fill-mode(forwards);
+    opacity: 0;
+};
+
+
+
+@include keyframes(content01) {
+    0% {
+        opacity: 0;
+    }
+    99.9%,to {
+        opacity: 1;
+    }
+}
+
+
+
+/* 花びら
+--------------------------------------------------------------------------------------------------------------------------------------------------------------*/
+@include create-ani-base(hanabira_base01, 0, $delayHana){
+    @include animation-fill-mode(forwards);
+    opacity: 0;
+    position: absolute;
+    top: 0;
+    left: 50%;
+    z-index: 10;
+};
+
+@include keyframes(hanabira_base01) {
+    0% {
+        opacity: 0;
+    }
+    99.9%,to {
+        opacity: 1;
+    }
+}
+
+$durationHanabira1:340*$magnificationFps;
+$durationHanabira2:640*$magnificationFps;
+$durationHanabira3:600*$magnificationFps;
+$durationHanabira4:530*$magnificationFps;
+$durationHanabira5:420*$magnificationFps;
+$durationHanabira6:460*$magnificationFps;
+$durationHanabira7:460*$magnificationFps;
+$durationHanabira8:320*$magnificationFps;
+$durationHanabira9:210*$magnificationFps;
+$durationHanabira10:360*$magnificationFps;
+$delayHanabira1: 0*$magnificationFps;
+$delayHanabira2: 0*$magnificationFps;
+$delayHanabira3: 60*$magnificationFps;
+$delayHanabira4: 70*$magnificationFps;
+$delayHanabira5: 160*$magnificationFps;
+$delayHanabira6: 200*$magnificationFps;
+$delayHanabira7: 240*$magnificationFps;
+$delayHanabira8: 420*$magnificationFps;
+$delayHanabira9: 530*$magnificationFps;
+$delayHanabira10: 600*$magnificationFps;
+
+@include create-hanabira(hanabira01, $hanaSize1, $durationHanabira1, 1000px, 360px,-1020px, 600px,$delayHanabira1,-90deg);
+
+@include create-hanabira(hanabira02, $hanaSize1, $durationHanabira2, 1020px, -20px,-1040px, 500px,$delayHanabira2,0deg);
+
+@include create-hanabira(hanabira03, $hanaSize2, $durationHanabira3, 1000px, 60px,-1020px, 400px,$delayHanabira3,0deg);
+
+@include create-hanabira(hanabira04, $hanaSize2, $durationHanabira4, 640px, -580px,-1000px, -320px,$delayHanabira4,0deg);
+
+@include create-hanabira(hanabira05, $hanaSize3, $durationHanabira5, 1060px, 220px,-140px, 680px,$delayHanabira5,0deg);
+
+@include create-hanabira(hanabira06, $hanaSize1, $durationHanabira6, 1020px, -460px,-1040px, -240px,$delayHanabira6,0deg);
+
+@include create-hanabira(hanabira07, $hanaSize3, $durationHanabira7, 1040px, -660px,-1080px, -400px,$delayHanabira7,0deg);
+
+@include create-hanabira(hanabira08, $hanaSize4, $durationHanabira8, 1060px, 200px,-820px, 640px,$delayHanabira8,0deg);
+
+@include create-hanabira(hanabira09, $hanaSize2, $durationHanabira9, -120px, -600px,-1020px, -460px,$delayHanabira9,0deg);
+
+@include create-hanabira(hanabira10, $hanaSize1, $durationHanabira10, 1020px, 120px,-1000px, 360px,$delayHanabira10,0deg);
+
+
+.ani_hanabira_rotate01 {
+    @include transform-origin(center);
+
+    animation-name: hanabira_rotate01;
+    animation-duration: #{$oneSecond*$durationHanabiraRotate}s;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+    animation-direction:alternate;
+}
+
+@keyframes hanabira_rotate01 {
+    0% {
+        transform: rotate(0deg);
+    }
+    99.9%,to {
+        transform: rotate(360deg);
+    }
+}

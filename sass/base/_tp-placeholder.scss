@@ -1,0 +1,234 @@
+@charset "UTF-8";
+
+
+//----------------------------------------------------------------------------------------------------------------------
+//
+// 使い方（新しい方）：
+//
+// 1. JSON情報をmapにする
+// $maps: create-maps("high/btns/btn_in_text/btn_in_text.json");
+//
+// 2. mapからプレースホルダを作る
+// @include create-placeholder($maps);
+//
+// 3. mapから指定したパーツの情報を取得する
+// $btnDetailFrame: get-piece-frame($maps, "btn_in_text", "btn_detail_01.png");
+// @debug map-get($btnDetailFrame, x); // 横軸
+// @debug map-get($btnDetailFrame, y); // 縦軸
+// @debug map-get($btnDetailFrame, w); // 横幅
+// @debug map-get($btnDetailFrame, h); // 縦幅
+//
+// ※返り値は数値なので、適宜単位をつけること
+// 例： #{$posX}px
+//
+//----------------------------------------------------------------------------------------------------------------------
+
+// placeholderが既に作られているかどうかのフラグ
+$flag-create-placeholder: false !default;
+
+//----------------------------------------------------------------------------------------------------------------------
+// 渡されたファイルパスから、map情報を作る
+// @params {string|list} $list
+@function create-maps ($list...){
+  $_maps: ();
+  @each $path in $list {
+    // JSONファイルをmap形式で取得
+    $map: json2Map($path);
+
+    // JSONファイル名の取得
+    $imageName: getFileName($path);
+    $map: map-merge($map, (jsonPath: $path));
+    $_maps: map-merge($_maps, ($imageName: $map));
+  }
+  @return $_maps;
+}
+
+//----------------------------------------------------------------------------------------------------------------------
+// スプライト画像の中にある指定されたパーツ1つの全データを取得
+// @params {map} $maps
+// @params {string} $fileName
+// @params {string} $pieceName
+// @return {map} パーツの情報
+@function get-piece($maps, $fileName, $pieceName){
+  $map: map-get($maps, $fileName);
+  $frames: map-get($map, frames);
+  @return map-get($frames, $pieceName);
+}
+
+//----------------------------------------------------------------------------------------------------------------------
+// スプライト画像の中にある指定されたパーツ1つの大きさ・位置情報を取得
+// @params {map} $maps
+// @params {string} $fileName
+// @params {string} $pieceName
+// @params {boolean} $isRetina
+// @return {map} 大きさと位置の情報
+@function get-piece-frame($maps, $fileName, $pieceName, $isRetina: false) {
+  $piece: get-piece($maps, $fileName, $pieceName);
+  $frame: map-get($piece, frame);
+  $x: map-get($frame, x);
+  $y: map-get($frame, y);
+  $spriteSourceSize: map-get($piece, spriteSourceSize);
+  $width: map-get($spriteSourceSize, w);
+  $height: map-get($spriteSourceSize, h);
+
+  $isTrim: map-get($frame, trimmed);
+  @if $isTrim == true {
+    $width: map-get($sourceSize, w);
+    $height: map-get($sourceSize, h);
+    $x: $x - map-get($spriteSourceSize, x);
+    $y: $y - map-get($spriteSourceSize, y);
+  }
+
+  @if $isRetina == true {
+    $x: floor($x / 2);
+    $y: floor($y / 2);
+    $width: floor($width / 2);
+    $height: floor($height / 2);
+  }
+
+
+
+  @return (x: $x, y: $y, w: $width, h: $height);
+}
+
+//----------------------------------------------------------------------------------------------------------------------
+//
+// 読み込んだmapの情報からプレースホルダを作る
+// @params {map} $_maps
+@mixin create-placeholder($_maps) {
+  @if not $flag-create-placeholder {
+    $flag-create-placeholder: true;
+    @each $imageName, $map in $_maps {
+
+      // JSONパスの情報を取得
+      $path: map-get($map, jsonPath);
+
+      // frame情報取得
+      $frames: map-get($map, frames);
+
+      $meta: map-get($map, meta);
+
+
+      // 画像自体の大きさ
+      $baseSize: map-get($meta, size);
+
+      // 拡縮情報
+      $baseScale: map-get($meta, scale);
+
+      // JSONファイル名の取得
+      $imageName: getFileName($path);
+
+      // 画像の拡張子取得
+      $imageExt: getExtension(map-get($meta, image));
+
+      /// 画像ファイルパスに変更
+      $path: strReplace($path, '.json', $imageExt);
+
+      // スプライト画像の名前（拡張子除く）
+      %sprite-#{$imageName} {
+        // スプライトシートの大きさ
+        $width: image-width($path);
+        $height: image-height($path);
+        $timestamp: getUnixTimestamp();
+        @if $nonImageUrl == true {
+          background-image: url(quote($imgPath + "sp_img/" + $path + "?" + $timestamp));
+        }@else{
+          background-image: url(quote(image-url($path, true, false) + "?" + $timestamp));
+        }
+        background-repeat: no-repeat;
+        @include background-size($width $height);
+      }
+
+      // スプライト画像の名前（Retina版）
+      %sprite-#{$imageName}-retina {
+        // スプライトシートの大きさ
+        $width: floor(image-width($path) / 2);
+        $height: floor(image-height($path) / 2);
+        $timestamp: getUnixTimestamp();
+
+
+
+        @if $nonImageUrl == true {
+            background-image: url(quote($imgPath + "sp_img/" + $path + "?" + $timestamp));
+        }@else{
+            background-image: url(quote(image-url($path, true, false) + "?" + $timestamp));
+        }
+
+        background-repeat: no-repeat;
+        @include background-size($width $height);
+      }
+
+
+      // key-value foreach
+      @each $key, $value in $frames {
+
+        $frame: map-get($value, frame);
+        $sourceSize: map-get($value, sourceSize);
+        $spriteSourceSize: map-get($value, spriteSourceSize);
+
+
+        // 1つの画像の大きさ
+        $frameWidth: map-get($frame, w);
+        $frameHeight: map-get($frame, h);
+
+        // 1つの画像の座標位置
+        $framePosX: map-get($frame, x);
+        $framePosY: map-get($frame, y);
+
+        $isTrim: map-get($frame, trimmed);
+        @if $isTrim == true {
+          $frameWidth: map-get($sourceSize, w);
+          $frameHeight: map-get($sourceSize, h);
+          $framePosX: $framePosX - map-get($spriteSourceSize, x);
+          $framePosY: $framePosY - map-get($spriteSourceSize, y);
+        }
+
+        $pieceName: getFileName($key);
+
+        // sizeのみ指定
+        %piece-#{$pieceName}-size {
+          width: #{$frameWidth}px;
+          height: #{$frameHeight}px;
+        }
+
+        // sizeのみ指定（Retina版）
+        %piece-#{$pieceName}-size-retina {
+          $width: floor($frameWidth / 2);
+          $height: floor($frameHeight / 2);
+          width: #{$width}px;
+          height: #{$height}px;
+        }
+
+        // positionのみ指定
+        %piece-#{$pieceName}-position {
+          background-position: -#{$framePosX}px -#{$framePosY}px;
+        }
+
+        // positionのみ指定（Retina版）
+        %piece-#{$pieceName}-position-retina {
+          $posX: floor($framePosX / 2);
+          $posY: floor($framePosY / 2);
+          background-position: -#{$posX}px -#{$posY}px;
+        }
+
+        // sizeとposition一括指定
+        %piece-#{$pieceName} {
+          width: #{$frameWidth}px;
+          height: #{$frameHeight}px;
+          background-position: -#{$framePosX}px -#{$framePosY}px;
+        }
+
+        // sizeとposition一括指定（Retina版）
+        %piece-#{$pieceName}-retina {
+          $width: floor($frameWidth / 2);
+          $height: floor($frameHeight / 2);
+          $posX: floor($framePosX / 2);
+          $posY: floor($framePosY / 2);
+          width: #{$width}px;
+          height: #{$height}px;
+          background-position: -#{$posX}px -#{$posY}px;
+        }
+      }
+    }
+  }
+}

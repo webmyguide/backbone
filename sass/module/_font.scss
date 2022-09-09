@@ -1,0 +1,31 @@
+
+
+.font {
+    &_weight {
+        &_bold {
+            font-weight: bold;
+        }
+
+        &_normal {
+            font-weight: normal;
+        }
+    }
+
+    &_size {
+        &_xl {
+            font-size: 18px;
+        }
+
+        &_l {
+            font-size: 16px;
+        }
+
+        &_s {
+            font-size: 12px;
+        }
+
+        &_xs {
+            font-size: 10px;
+        }
+    }
+}

@@ -1,0 +1,51 @@
+@charset "utf-8";
+
+.list {
+    &_panel {
+        &_color {
+            li {
+                float: left;
+                width: 25%;
+                padding: 6px;
+            }
+        }
+    }
+
+    &_performance {
+        &_read {
+            li {
+                text-align: left;
+
+                &:not(:last-of-type) {
+                    border-right: 1px dotted rgba(0,0,0,0.4);
+                }
+            }
+        }
+
+        &_figure {
+            margin-top: 50px;
+
+            li {
+                float: left;
+                width: 33%;
+                padding: 6px;
+
+                &:not(:last-of-type) {
+                    border-right: 1px dotted rgba(0,0,0,0.4);
+                }
+
+                @include mq(){
+                    float: initial;
+                    width: 100%;
+                    text-align: left;
+
+                    &:not(:last-of-type) {
+                        border-right: none;
+                        border-bottom: 1px dotted rgba(0,0,0,0.4);
+                    }
+
+                }
+            }
+        }
+    }
+}

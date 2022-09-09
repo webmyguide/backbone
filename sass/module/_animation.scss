@@ -1,0 +1,87 @@
+@charset "utf-8";
+
+
+/* --- アニメーションベース --- */
+$fps: 60;
+$baseFps: 60;
+$magnificationFps:$fps/$baseFps;
+$oneSecond: 1/$fps;
+@mixin create-ani-base($name,$second,$delay:0){
+    .ani_#{$name} {
+        @content;
+        @include animation-name($name);
+        @include animation-duration(#{$oneSecond*$second}s);
+        @include animation-delay(#{($oneSecond*$delay)}s);
+        @include animation-timing-function(linear);
+        @include animation-iteration-count(initial);
+
+    }
+}
+
+/* slide
+--------------------------------------------------------------------------------------------------------------------------------------------------------------*/
+@include create-ani-base(slide_up, 30, 0){
+    @include animation-fill-mode(forwards);
+    // @include transform(scale(1, 0));
+    // @include transform-origin(top center);
+    opacity: 0;
+};
+
+@include keyframes(slide_up) {
+    0% {
+        opacity: 0;
+        @include transform(translateY(100%));
+    }
+    99.9%,to {
+        opacity: 1;
+        @include transform(translateY(0));
+    }
+}
+
+/* fadeIn
+--------------------------------------------------------------------------------------------------------------------------------------------------------------*/
+@include create-ani-base(disp_fadeIn, 30, 0){
+    @include animation-fill-mode(forwards);
+    // @include transform(scale(1, 0));
+    // @include transform-origin(top center);
+    opacity: 0;
+};
+
+@include keyframes(disp_fadeIn) {
+    0% {
+        opacity: 0;
+    }
+    99.9%,to {
+        opacity: 1;
+    }
+}
+
+
+.ani {
+
+    //　アニメーション時間
+    &_duration {
+        &_30 {
+            @include animation-duration(#{($oneSecond*30)}s);
+        }
+
+        &_60 {
+            @include animation-duration(#{($oneSecond*60)}s);
+        }
+    }
+
+    //　待機時間
+    &_delay {
+        &_15 {
+            @include animation-delay(#{($oneSecond*15)}s);
+        }
+        &_30 {
+            @include animation-delay(#{($oneSecond*30)}s);
+        }
+
+        &_60 {
+            @include animation-delay(#{($oneSecond*60)}s);
+        }
+    }
+
+}

@@ -1,0 +1,260 @@
+@charset "utf-8";
+
+
+.box {
+    padding: 20px 0;
+
+    @include mq(){
+        padding: 6px 0;
+    };
+
+    &_type {
+        &_01 {
+            &:nth-child(odd) {
+                .box {
+                    &__figure {
+                        float: left;
+
+                        @include mq(){
+                            float: initial;
+                        };
+
+                    }
+
+                    &__read {
+                        float: right;
+
+                        @include mq(){
+                            float: initial;
+                        };
+                    }
+                }
+            }
+            &:nth-child(even) {
+                .box {
+                    &__figure {
+                        float: right;
+
+                        @include mq(){
+                            float: initial;
+                        };
+                    }
+
+                    &__read {
+                        float: left;
+
+                        @include mq(){
+                            float: initial;
+                        };
+                    }
+                }
+            }
+        }
+
+        &_02 {
+            width: calc(100% + 80px);
+            margin-left: -40px;
+
+            @include mq(){
+                width: calc(100% + 24px);
+                margin-left: -12px;
+            };
+
+
+            + .box_type_02 {
+                padding: 0 0 20px 0;
+
+                @include mq(){
+                    padding: 0 0 6px 0;
+                };
+            }
+        }
+
+        &_lineup {
+            padding: 40px;
+
+            @include mq(){
+                padding: 12px 0;
+            }
+
+            &:first-child {
+                padding: 20px 40px 40px 40px;
+            }
+
+            &:not(:last-child) {
+                border-bottom: 1px dotted rgba(0,0,0,0.4);
+            }
+        }
+    }
+
+
+    &_bodyColor,
+    &_performance {
+        padding: 0;
+    }
+
+    &_performance {
+        @include mq(){
+            padding-top: 12px;
+        }
+    }
+
+
+    &_accordion {
+        @include mq(){
+            border-top: 1px dotted rgba(0,0,0,0.4);
+            border-bottom: 1px dotted rgba(0,0,0,0.4);
+            padding: 0;
+            width: calc(100% + 24px);
+            margin: 6px -12px;
+        }
+    }
+
+    &__accordion {
+
+        &_tit {
+            display: none;
+            visibility: hidden;
+
+            @include mq(){
+                display: block;
+                visibility: visible;
+            };
+        }
+
+        &_target {
+
+            @include mq(){
+                display: none;
+                visibility: hidden;
+                padding: 12px;
+            };
+        }
+    }
+
+
+    &__figure {
+        display: inline-block;
+        width: 40%;
+        vertical-align: middle;
+
+        @include mq(){
+            width: 100%;
+        };
+
+        &_column {
+            &_01 {
+                width: 100%;
+            }
+            &_02 {
+                float: left;
+                width: 50%;
+                &:nth-child(odd) {
+                    padding-right: 10px;
+                    @include mq(){
+                        padding-right: 3px;
+                    };
+                }
+                &:nth-child(even) {
+                    padding-left: 10px;
+                    @include mq(){
+                        padding-left: 3px;
+                    };
+                }
+            }
+        }
+
+        &_lineup {
+            float: left;
+            width: 25%;
+
+            @include mq(){
+                float: initial;
+                width: 100%;
+            }
+        }
+
+        &_performance {
+            float: left;
+            width: 50%;
+
+            @include mq(){
+                float: initial;
+                width: 100%;
+                margin-bottom: 12px;
+            }
+        }
+    }
+
+    &__read {
+        display: inline-block;
+        width: 59%;
+        padding: 0 20px;
+        vertical-align: middle;
+
+        @include mq(){
+            width: 100%;
+            padding: 0;
+        };
+
+        &_lineup {
+            float: left;
+            width: 75%;
+            text-align: left;
+            padding: 0 40px;
+
+            @include mq(){
+                float: initial;
+                width: 100%;
+                padding: 0;
+                margin-top: 12px;
+            }
+        }
+
+        &_performance {
+            float: left;
+            width: 50%;
+            padding-left: 20px;
+
+            @include mq(){
+                float: initial;
+                width: 100%;
+                padding-left: 0;
+            }
+        }
+    }
+
+    &__list {
+        padding-left: 20px;
+
+        li {
+            list-style-type: disc;
+            margin-bottom: 6px;
+        }
+    }
+
+    &__panel {
+
+        &_figure {
+            float: left;
+            width: 65%;
+            padding-right: 40px;
+
+            @include mq(){
+                float: initial;
+                width: 100%;
+                padding-right: 0;
+            }
+        }
+
+        &_color {
+            float: left;
+            width: 35%;
+
+            @include mq(){
+                float: initial;
+                width: 100%;
+            }
+        }
+    }
+}

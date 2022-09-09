@@ -1,0 +1,106 @@
+@charset "utf-8";
+
+
+.tit {
+    &_type {
+        &_header {
+            background-color: #a92a2a;
+            width: 16%;
+            min-width: 180px;
+            color: #ffffff;
+            font-size: 24px;
+            text-align: left;
+            padding: 6px 12px;
+            cursor: pointer;
+
+            @include mq(){
+                font-size: 20px;
+                padding: 0 6px;
+                height: 44px;
+                line-height: 44px;
+                min-width: 150px;
+            }
+
+        }
+
+        &_top {
+            width: 100%;
+            padding: 16px 20px;
+            font-size: 28px;
+            line-height: 1.2;
+            background-color: rgba(169,42,42,0.7);
+            text-align: left;
+            color: #fff;
+
+            @include mq(){
+                padding: 12px;
+                font-size: 20px;
+            }
+        }
+
+        &_lineup {
+            width: 100%;
+            font-size: 24px;
+            font-weight: bold;
+            margin-top: 12px;
+
+            @include mq(){
+                margin-top: 6px;
+                font-size: 20px;
+            }
+        }
+
+        &_price {
+            font-size: 16px;
+            margin-top: 12px;
+
+            @include mq(){
+                margin-top: 6px;
+            }
+        }
+
+        &_performance {
+            font-size: 24px;
+            margin-bottom: 12px;
+            text-align: left;
+            font-weight: bold;
+
+            @include mq(){
+                font-size: 18px;
+                margin-top: 6px;
+                margin-bottom: 6px;
+            }
+        }
+    }
+
+    &_common {
+        &_01 {
+            border-top: 6px solid #a92a2a;
+            color: #a92a2a;
+            font-size: 36px;
+            text-align: left;
+            padding: 40px 0;
+            font-weight: bold;
+
+            @include mq(){
+                font-size: 24px;
+                padding: 18px 0;
+            };
+        }
+
+        &_02 {
+            color: #a92a2a;
+            font-size: 24px;
+            text-align: left;
+            padding: 20px 0;
+            font-weight: bold;
+
+            @include mq(){
+                font-size: 18px;
+                padding: 12px 0;
+            };
+        }
+    }
+
+
+}

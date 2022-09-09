@@ -1,0 +1,51 @@
+@charset "utf-8";
+
+$isScrollDesign: true;
+$isLoading: true;
+
+// $mediaSp:  "only screen and (max-width:767px)";
+// $mediaTb: "only screen and (min-width:768px) and (max-width:991px)";
+// $mediaPc:  "only screen and (min-width:992px)";
+
+$mediaBreakpoint: (
+  'sp': 'only screen and (max-width:640px)',
+  'tb': 'only screen and (min-width:641px) and (max-width:959px)',
+  'pc': 'only screen and (min-width:960px)',
+) !default;
+
+
+
+//フォントサイズ 10px基準
+$fontSizeBase: 1.4;
+
+//フォントカラー
+$fontColorBody: #444444;
+$fontColorArray:(
+    1: #ffffff,
+);
+$textShadowArray:(
+    1: #ff7e00,
+    2: #b10000,
+);
+
+
+$fontColorLinkArray:(
+    1: #333333,
+    2: #00ffff,
+    3: #222,
+);
+
+//フォントファミリア
+$fontFamilyBase: Avenir , "Open Sans" , "Helvetica Neue" , Helvetica , Arial , Verdana , Roboto , "游ゴシック" , "Yu Gothic" , "游ゴシック体" , "YuGothic" , "ヒラギノ角ゴ Pro W3" , "Hiragino Kaku Gothic Pro" , "Meiryo UI" , "メイリオ" , Meiryo , "ＭＳ Ｐゴシック" , "MS PGothic" , sans-serif;
+$fontFamilyParts:(
+    1: Arial,
+    2: Helvetica,
+    3: "ヒラギノ角ゴ Pro W3",
+);
+
+
+$bgColorBody: #f2f2f2;
+$bgColorArray:(
+    1: #e9e8e8,
+    2: #d4d1d1,
+);

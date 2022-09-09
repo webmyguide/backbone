@@ -1,0 +1,29 @@
+@charset "utf-8";
+
+.bor {
+    &_line {
+        &_horizontal {
+            border-left: 1px dotted rgba(0,0,0,0.4);;
+            border-right: 1px dotted rgba(0,0,0,0.4);;
+            height: 10px;
+
+            > .core {
+                border-bottom: 1px dotted rgba(0,0,0,0.4);;
+                height: 6px;
+            }
+        }
+
+        &_vertical {
+            border-top: 1px dotted rgba(0,0,0,0.4);;
+            border-bottom: 1px dotted rgba(0,0,0,0.4);;
+            width: 10px;
+            height: 100%;
+
+            > .core {
+                border-right: 1px dotted rgba(0,0,0,0.4);;
+                width: 6px;
+                height: 100%;
+            }
+        }
+    }
+}

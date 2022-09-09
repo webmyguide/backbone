@@ -1,0 +1,42 @@
+@charset "utf-8";
+
+.table {
+    display: table;
+    width: 100%;
+
+    &_performance {
+        &_read {
+            border-top: 2px solid rgba(0,0,0,0.4);
+            border-bottom: 2px solid rgba(0,0,0,0.4);
+        }
+    }
+
+    &__row {
+        display: table-row;
+
+        + .table__row {
+            .table__cell_performanceTit,
+            .table__cell_performanceDetail {
+                border-top: 1px dotted rgba(0,0,0,0.4);
+            }
+        }
+    }
+
+    &__cell {
+        display: table-cell;
+
+        &_performanceTit {
+            text-align: left;
+            padding: 12px;
+            width: 50%;
+        }
+
+        &_performanceDetail {
+            text-align: right;
+            padding: 12px;
+            width: 50%;
+        }
+    }
+
+
+}

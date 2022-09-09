@@ -1,0 +1,124 @@
+@charset "UTF-8";
+
+
+
+@mixin create-repeated-space ($name, $value, $max) {
+    $num:'';
+    @for $i from 0 through $max{
+        @if $i == 0 {
+            $num: 0;
+        } @else {
+            $num: zeroPadding($i, 2);
+                        // $num: $i,;
+        }
+        .#{$name}#{$num} {#{$name}: #{$i * $value}px;}
+        .#{$name}_t#{$num} {#{$name}-top: #{$i * $value}px;}
+        .#{$name}_l#{$num} {#{$name}-left: #{$i * $value}px;}
+        .#{$name}_r#{$num} {#{$name}-right: #{$i * $value}px;}
+        .#{$name}_b#{$num} {#{$name}-bottom: #{$i * $value}px;}
+    }
+}
+
+@mixin  create-repeated-class($name, $className, $value, $max, $important:false, $isRem:fales) {
+    $num:'';
+    $extension:'';
+    @for $i from 0 through $max{
+        @if $i == 0 {
+            $num: 0;
+        } @else {
+            $num: zeroPadding($i, 2);
+        }
+
+        @if $isRem == true {
+            $extension: 'rem';
+        } @else {
+            $extension: 'px';
+        }
+
+
+        @if $important == true {
+            .#{$className}#{$num} {#{$name}: #{$i * $value + $extension} !important;}
+        } @else {
+            .#{$className}#{$num} {#{$name}: #{$i * $value + $extension};}
+        }
+    }
+}
+
+@mixin create-array-class($name,$className,$array,$important:false) {
+    $num:'';
+    @each $key, $value in $array {
+        @if $key == 0 {
+            $num: 0;
+        } @else {
+            $num: zeroPadding($key, 2);
+        }
+        @if $important == true {
+            .#{$className}#{$num} {
+                #{$name}: $value !important;
+            }
+        } @else {
+            .#{$className}#{$num} {
+                #{$name}: $value;
+            }
+        }
+
+    }
+}
+
+
+@mixin create-text-shadow ($array, $max) {
+    @each $key, $value in $array {
+        $num:'';
+        .txt_shadow#{zeroPadding($key, 2)} {
+            @for $i from 0 through $max{
+                @if $i == 0 {
+                    $num: 0;
+                } @else {
+                    $num: zeroPadding($i, 2);
+                }
+
+                @if $i == 0 {
+                    $setValue: 0 -1px 1px $value, -1px 0 1px $value, 1px 0 1px $value, 0 -1px 1px $value, -1px -1px 1px $value, 1px 1px 1px $value, 1px -1px 1px$value, -1px 1px 1px $value !important;
+                } @else {
+                    $blur:$i+$i+1;
+                    $setValue: 0 -1px #{$blur}px $value, -1px 0 #{$blur}px $value, 1px 0 #{$blur}px $value, 0 -1px #{$blur}px $value, -1px -1px #{$blur}px $value, 1px 1px #{$blur}px $value, 1px -1px #{$blur}px $value, -1px 1px #{$blur}px $value !important;
+                    &.shadow_size#{$num} {
+                        @include prefixer(text-shadow, $setValue, webkit moz ms o spec);
+                    }
+                }
+            }
+        }
+    }
+}
+
+
+@mixin mq($breakpoint:sp) {
+  @media #{map-get($mediaBreakpoint, $breakpoint)} {
+    @content;
+  }
+}
+
+
+@mixin background-size($size...) {
+    $size: $size;
+    @include prefixer(background-size, $size, webkit moz ms o spec);
+}
+
+@mixin border-radius($size) {
+    @include prefixer(border-radius, $size, webkit moz ms o spec);
+}
+
+@mixin box-shadow($value) {
+    @include prefixer(box-shadow, $value, webkit moz ms o spec);
+}
+
+@mixin text-shadow($value) {
+    @include prefixer(text-shadow, $value, webkit moz ms o spec);
+}
+
+@mixin opacity($opacity) {
+    opacity: $opacity;
+    // IE8 filter
+    $opacity-ie: ($opacity * 100);
+    filter: alpha(opacity=$opacity-ie);
+}

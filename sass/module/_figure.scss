@@ -1,0 +1,37 @@
+@charset "utf-8";
+
+
+.figure {
+    &_performance {
+        position: relative;
+    }
+
+
+    &__performance {
+        position: absolute;
+
+        &_horizontal {
+            width: 60%;
+            margin: 0 auto;
+            left: 50%;
+            bottom: -40px;
+            @include transform(translateX(-50%));
+        }
+
+        &_vertical {
+            top: -12px;
+            right: 24px;
+            
+            @include mq(){
+                top: -20px;
+            }
+
+        }
+
+        &_verticalLine {
+            height: 80%;
+            top: 0;
+            right: 0;
+        }
+    }
+}

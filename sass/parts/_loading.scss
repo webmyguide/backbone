@@ -1,0 +1,10 @@
+@charset "utf-8";
+
+@if $isLoading == true  {
+    #nowLoading {
+        position: absolute;
+        top: 14px;
+        right: 12px;
+        color: darken( #ffffff, 50% );
+    }
+}
